@@ -5,7 +5,7 @@ var mysql = require('mysql');
 var db = mysql.createConnection({
     host: 'bdm256143682.my3w.com',
     user: 'bdm256143682',
-    password: '1509114zhlimysql',
+    password: '',
     database: 'bdm256143682_db',
     insecureAuth: true
 });
