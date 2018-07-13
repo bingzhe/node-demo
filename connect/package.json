@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "connect": "^3.6.6",
     "cookie-parser": "^1.4.3"
   }

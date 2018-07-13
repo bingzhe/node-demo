@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    h1= settings.title
+    p Express stock photo application.
+    div(class='photos')
+        each item in photos
+            div(class="photo")
+                h2= item.name
+                img(src='photos/'+ item.path)
