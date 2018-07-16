@@ -35,13 +35,21 @@ exports.form = (req, res) => {
     })
 };
 
+
 exports.submit = (dir) => {
     return (req, res, next) => {
-        console.log(req);
-        // var img = req.files.photo.image;
-        // var name = req.body.photo.name || img.name;
-        // var path = join(dir, img.name);
-        // fa.rename(img.path, path, err => {
+        var img = req.file;
+        var name = req.body.photo.name || img.originalname;
+        // var path = join(dir, img.originalname);
+        Photo.create({
+            name: name,
+            path: img.originalname
+        }, err => {
+            if (err) return next(err);
+            res.redirect('/photos');
+        });
+
+        // fs.rename(img.originalname, path, err => {
         //     if (err) return next(err);
 
         //     Photo.create({
@@ -52,5 +60,20 @@ exports.submit = (dir) => {
         //         res.redirect('/');
         //     });
         // });
+    };
+};
+
+
+exports.download = dir => {
+    return (req, res, next) => {
+        var id = req.params.id;
+        console.log("下载", id);
+        Photo.findById(id, (err, photo) => {
+            if (err) return next(err);
+            var path = join(dir, photo.path);
+
+            // res.sendfile(path);
+            res.download(path);
+        });
     };
 };

@@ -7,4 +7,5 @@ block content
         each item in photos
             div(class="photo")
                 h2= item.name
-                img(src='photos/'+ item.path)
+                a(href='/photo/'+ item.id+ '/download')
+                    img(src='/photos/'+ item.path)
