@@ -11,10 +11,12 @@ exports.submit = (req, res, next) => {
         if (err) return next(err);
 
         if (user) {
-            req.session.uid = user.id;
+            // req.session.uid = user.id;
+            res.cookie('uid', user.id);
             res.redirect('/login');
         } else {
-            res.error('sorry! invalid credentials.');
+            // res.error('sorry! invalid credentials.');
+            res.send('sorry! invalid credentials.');
             res.redirect('back');
         }
     });

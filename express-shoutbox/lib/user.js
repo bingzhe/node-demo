@@ -34,7 +34,14 @@ User.prototype.update = function (fn) {
     var id = user.id;
     db.set('user:id:' + user.name, id, function (err) {
         if (err) return fn(err);
-        db.hmset('user:' + id, user, function (err) {
+        var userCopy = {
+            id: user.id,
+            name: user.name,
+            salt: user.salt,
+            pass: user.pass
+        };
+
+        db.hmset('user:' + id, userCopy, function (err) {
             fn(err);
         });
     });
@@ -53,28 +60,21 @@ User.prototype.hashPassword = function (fn) {
     });
 };
 
-// var tobi = new User({
-//     name: 'Tobi',
-//     Pass: 'im a ferret',
-//     age: '2'
-// });
 
-// tobi.save(function (err) {
-//     if (err) throw err;
-//     console.log('user id %d', tobi.id);
-// });
-
+//通过名称取得id
 User.getByName = function (name, fn) {
     User.getId(name, (err, id) => {
         if (err) return fn(err);
-        User.getByName(id, fn);
+        User.get(id, fn);
     });
 };
 
+//通过名称取得id
 User.getId = function (name, fn) {
     db.get('user:id:' + name, fn);
 };
 
+//通过用户取得id
 User.get = function (id, fn) {
     db.hgetall('user:' + id, (err, user) => {
         if (err) return fn(err);
@@ -82,6 +82,7 @@ User.get = function (id, fn) {
     });
 };
 
+//认证用户的名称和密码
 User.authenticate = function (name, pass, fn) {
     User.getByName(name, function (err, user) {
         if (err) return fn(err);

@@ -9,6 +9,7 @@ var upload = multer();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
+var registerRouter = require('./routes/register');
 
 var app = express();
 
@@ -27,6 +28,9 @@ app.use('/users', usersRouter);
 
 app.get('/login', loginRouter.form);
 app.post('/login', upload.array(), loginRouter.submit);
+
+app.get('/register', registerRouter.form);
+app.post('/register', upload.array(), registerRouter.submit);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
